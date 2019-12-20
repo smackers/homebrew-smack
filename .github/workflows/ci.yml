@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branch: master
+
+jobs:
+  ci:
+    name: Run brew test-bot on macOS
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: brew test-bot
+        env:
+          HOMEBREW_TAP_DIR: /usr/local/Homebrew/Library/Taps/${{github.repository}}
+          HOMEBREW_BINTRAY_URL: https://dl.bintray.com/${{github.event.repository.owner.login}}/bottles-smack
+          TAP_NAME: smackers/smack
+        run: |
+          set -e
+          brew update
+          mkdir -p "$HOMEBREW_TAP_DIR"
+          rm -rf "$HOMEBREW_TAP_DIR"
+          ln -s "$PWD" "$HOMEBREW_TAP_DIR"
+          brew test-bot --tap="$TAP_NAME" --root-url=$HOMEBREW_BINTRAY_URL
