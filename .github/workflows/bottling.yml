@@ -6,12 +6,6 @@ on:
       - 'Formula/*.rb'
       - '!.github/workflows/*'
 
-env:
-  HOMEBREW_BINTRAY_REPO: bottles-smack
-  HOMEBREW_BINTRAY_USER: ${{github.event.repository.owner.login}}
-  HOMEBREW_BOTTLE_DOMAIN: https://dl.bintray.com/${{github.event.repository.owner.login}}
-  HOMEBREW_BINTRAY_URL: https://dl.bintray.com/${{github.event.repository.owner.login}}/bottles-smack
-
 jobs:
   build-linux:
     name: Build Linux bottle
@@ -28,6 +22,7 @@ jobs:
           ln -s $PWD $(brew --repository $GITHUB_REPOSITORY)
       - name: Build bottles
         env:
+          HOMEBREW_BINTRAY_URL: https://dl.bintray.com/${{github.event.repository.owner.login}}/bottles-smack
           # workaround for error: invalid cross-device link
           HOMEBREW_CACHE: /home/linuxbrew/.cache
           HOMEBREW_TEMP: /home/linuxbrew/.tmp
@@ -54,6 +49,8 @@ jobs:
           mkdir -p $(dirname $(brew --repository $GITHUB_REPOSITORY))
           ln -s $PWD $(brew --repository $GITHUB_REPOSITORY)
       - name: Build bottles
+        env:
+          HOMEBREW_BINTRAY_URL: https://dl.bintray.com/${{github.event.repository.owner.login}}/bottles-smack
         run: |
           mkdir /tmp/bottles
           cd /tmp/bottles
@@ -91,6 +88,8 @@ jobs:
           path: ./
       - name: Create package
         env:
+          HOMEBREW_BINTRAY_REPO: bottles-smack
+          HOMEBREW_BINTRAY_USER: ${{github.event.repository.owner.login}}
           HOMEBREW_BINTRAY_KEY: ${{secrets.HOMEBREW_BINTRAY_KEY}}
         run: |
           for package in $(ls -1 *.bottle.* | awk -F '--' '{print $1}' | uniq | tr '@' ':'); do
@@ -107,6 +106,10 @@ jobs:
               https://api.bintray.com/packages/$HOMEBREW_BINTRAY_USER/$HOMEBREW_BINTRAY_REPO || true
           done
       - name: Upload bottles
+        env:
+          HOMEBREW_BOTTLE_DOMAIN: https://dl.bintray.com/${{github.event.repository.owner.login}}
+          HOMEBREW_BINTRAY_USER: ${{github.event.repository.owner.login}}
+          HOMEBREW_BINTRAY_KEY: ${{secrets.HOMEBREW_BINTRAY_KEY}}
         run: brew test-bot --bintray-org=$HOMEBREW_BINTRAY_USER --ci-upload
       - name: Push branch
         env:
