@@ -24,7 +24,7 @@ class Smack < Formula
     EOS
 
     # Ensures LLVM binaries are in the path
-    ENV['PATH'] = "/usr/local/opt/llvm@8/bin:#{ENV['PATH']}"
+    ENV["PATH"] = "/usr/local/opt/llvm@8/bin:#{ENV["PATH"]}"
 
     # TODO: remove `-t` once Smack no longer installs Corral
     system "#{bin}/smack", (testpath/"a.c"), "-t"
