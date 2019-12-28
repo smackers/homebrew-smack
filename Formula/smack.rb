@@ -1,6 +1,6 @@
 class Smack < Formula
   desc "SMACK Software Verifier and Verification Toolchain"
-  homepage "http://smackers.github.io"
+  homepage "https://github.com/smackers/smack"
   url "https://github.com/smackers/smack/archive/v2.4.0.tar.gz"
   sha256 "32ebe2d99044e74e91db611934c781d740529213e6fdcc2b29a930ee14da7b93"
 
