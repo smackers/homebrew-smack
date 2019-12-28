@@ -101,7 +101,8 @@ jobs:
       - name: Create package
         env:
           HOMEBREW_BINTRAY_REPO: bottles-smack
-          HOMEBREW_BINTRAY_USER: ${{github.event.repository.owner.login}}
+          HOMEBREW_BINTRAY_USER: michael-emmi
+          HOMEBREW_BINTRAY_ORG: ${{github.event.repository.owner.login}}
           HOMEBREW_BINTRAY_KEY: ${{secrets.HOMEBREW_BINTRAY_KEY}}
         run: |
           for package in $(ls -1 *.bottle.* | awk -F '--' '{print $1}' | uniq | tr '@' ':'); do
@@ -115,14 +116,15 @@ jobs:
                 \"public_download_numbers\": true, \
                 \"public_stats\": true \
                 }" \
-              https://api.bintray.com/packages/$HOMEBREW_BINTRAY_USER/$HOMEBREW_BINTRAY_REPO || true
+              https://api.bintray.com/packages/$HOMEBREW_BINTRAY_ORG/$HOMEBREW_BINTRAY_REPO || true
           done
       - name: Upload bottles
         env:
           HOMEBREW_BOTTLE_DOMAIN: https://dl.bintray.com/${{github.event.repository.owner.login}}
-          HOMEBREW_BINTRAY_USER: ${{github.event.repository.owner.login}}
+          HOMEBREW_BINTRAY_USER: michael-emmi
+          HOMEBREW_BINTRAY_ORG: ${{github.event.repository.owner.login}}
           HOMEBREW_BINTRAY_KEY: ${{secrets.HOMEBREW_BINTRAY_KEY}}
-        run: brew test-bot --bintray-org=$HOMEBREW_BINTRAY_USER --ci-upload
+        run: brew test-bot --bintray-org=$HOMEBREW_BINTRAY_ORG --ci-upload
       - name: Push branch
         env:
           GITHUB_USER: ${{github.event.repository.owner.login}}
