@@ -8,6 +8,11 @@ on:
 
 jobs:
   build-linux:
+
+    # disable this job for now since the test phase is failing on Linux, and it
+    # is unclear whether we want Linux bottles anyhow.
+    if: false
+
     name: Build Linux bottle
     runs-on: ubuntu-latest
     container: homebrew/brew
@@ -36,6 +41,7 @@ jobs:
         with:
           name: bottles-linux
           path: bottles
+
   build-macos:
     name: Build macOS bottle
     runs-on: macos-latest
@@ -61,11 +67,13 @@ jobs:
         with:
           name: bottles-macos
           path: bottles
+
   upload:
     name: Upload bottles
     runs-on: macos-latest
     needs:
-      - build-linux
+      # disable this dependency for now; see above
+      # - build-linux
       - build-macos
     steps:
       - name: Update Homebrew
@@ -76,11 +84,15 @@ jobs:
         run: |
           brew tap --full $GITHUB_REPOSITORY
           brew pull --clean $PATCH_URL
-      - name: Get bottles-linux
+
+      # disable this step for now; see above.
+      - if: false
+        name: Get bottles-linux
         uses: actions/download-artifact@v1
         with:
           name: bottles-linux
           path: ./
+
       - name: Get bottles-macos
         uses: actions/download-artifact@v1
         with:
