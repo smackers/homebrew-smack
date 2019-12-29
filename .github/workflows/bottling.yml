@@ -124,7 +124,7 @@ jobs:
           HOMEBREW_BINTRAY_USER: michael-emmi
           HOMEBREW_BINTRAY_ORG: ${{github.event.repository.owner.login}}
           HOMEBREW_BINTRAY_KEY: ${{secrets.HOMEBREW_BINTRAY_KEY}}
-        run: brew test-bot --bintray-org=$HOMEBREW_BINTRAY_ORG --ci-upload --verbose
+        run: brew test-bot --bintray-org=$HOMEBREW_BINTRAY_ORG --ci-upload
       - name: Push branch
         env:
           GITHUB_USER: ${{github.event.repository.owner.login}}
