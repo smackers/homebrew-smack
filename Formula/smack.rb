@@ -1,8 +1,14 @@
 class Smack < Formula
   desc "SMACK Software Verifier and Verification Toolchain"
-  homepage "http://smackers.github.io"
+  homepage "https://github.com/smackers/smack"
   url "https://github.com/smackers/smack/archive/v2.4.0.tar.gz"
   sha256 "32ebe2d99044e74e91db611934c781d740529213e6fdcc2b29a930ee14da7b93"
+
+  bottle do
+    root_url "https://dl.bintray.com/smackers/bottles-smack"
+    cellar :any
+    sha256 "5e4a2c27bfe678f0744ffbacb7d0e1e8d9cf0ff95e7afe5efdc6c43633344202" => :catalina
+  end
 
   depends_on "cmake" => :build
   depends_on "llvm@8"
