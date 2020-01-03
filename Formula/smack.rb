@@ -7,8 +7,6 @@ class Smack < Formula
   depends_on "cmake" => :build
   depends_on "llvm@8"
   depends_on "python"
-  depends_on "boogie"
-  depends_on "smackers/smack/corral"
 
   def install
     system "cmake", ".", "-DCMAKE_INSTALL_PREFIX=#{prefix}", "-DCMAKE_BUILD_TYPE=Debug"
@@ -31,9 +29,9 @@ class Smack < Formula
     EOS
 
     # Ensures LLVM binaries are in the path
-    ENV["PATH"] = "/usr/local/opt/llvm@8/bin:#{ENV["PATH"]}"
+    ENV.prepend_path "PATH", shell_output("brew --prefix llvm@8")
 
     # TODO: remove `-t` once Smack no longer installs Corral
-    system "#{bin}/smack", (testpath/"a.c")
+    system "#{bin}/smack", "-t", (testpath/"a.c")
   end
 end
