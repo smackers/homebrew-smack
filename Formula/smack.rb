@@ -29,7 +29,7 @@ class Smack < Formula
     EOS
 
     # Ensures LLVM binaries are in the path
-    ENV.prepend_path "PATH", shell_output("brew --prefix llvm@8")
+    ENV.prepend_path "PATH", "#{shell_output("brew --prefix llvm@8").chomp}/bin"
 
     # TODO: remove `-t` once Smack no longer installs Corral
     system "#{bin}/smack", "-t", (testpath/"a.c")
