@@ -4,20 +4,21 @@ class Smack < Formula
   url "https://github.com/smackers/smack/archive/v2.4.0.tar.gz"
   sha256 "32ebe2d99044e74e91db611934c781d740529213e6fdcc2b29a930ee14da7b93"
 
-  bottle do
-    root_url "https://dl.bintray.com/smackers/bottles-smack"
-    cellar :any
-    sha256 "5e4a2c27bfe678f0744ffbacb7d0e1e8d9cf0ff95e7afe5efdc6c43633344202" => :catalina
-  end
-
   depends_on "cmake" => :build
   depends_on "llvm@8"
   depends_on "python"
-  depends_on "z3"
+  depends_on "boogie"
+  depends_on "smackers/smack/corral"
 
   def install
     system "cmake", ".", "-DCMAKE_INSTALL_PREFIX=#{prefix}", "-DCMAKE_BUILD_TYPE=Debug"
     system "make", "install"
+
+    # NOTE: this is a temporary fix the next release
+    system "rm", prefix/"bin"/"boogie"
+    system "rm", prefix/"bin"/"corral"
+    system "rm", prefix/"bin"/"lockpwn"
+    system "rm", prefix/"bin"/"symbooglix"
   end
 
   test do
@@ -33,6 +34,6 @@ class Smack < Formula
     ENV["PATH"] = "/usr/local/opt/llvm@8/bin:#{ENV["PATH"]}"
 
     # TODO: remove `-t` once Smack no longer installs Corral
-    system "#{bin}/smack", (testpath/"a.c"), "-t"
+    system "#{bin}/smack", (testpath/"a.c")
   end
 end
