@@ -7,8 +7,8 @@ class Smack < Formula
   bottle do
     root_url "https://dl.bintray.com/smackers/bottles-smack"
     cellar :any
-    rebuild 1
-    sha256 "96cbbd634797c032413fceaa7cf5dc45051748669294263f8934baed4ba0e744" => :catalina
+    rebuild 2
+    sha256 "159d27b063436ec895ed158795418c514f1f7142b4dae5ca36594c16390253c9" => :catalina
   end
 
   depends_on "cmake" => :build
