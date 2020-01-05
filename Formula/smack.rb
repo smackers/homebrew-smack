@@ -38,7 +38,7 @@ class Smack < Formula
     # Ensures LLVM binaries are in the path
     ENV.prepend_path "PATH", "#{shell_output("brew --prefix llvm@8").chomp}/bin"
 
-    # TODO: remove `-t` once corral is a dependency
+    # TODO: remove `-t` once Corral is a dependency
     system "#{bin}/smack", "-t", (testpath/"a.c")
   end
 end
