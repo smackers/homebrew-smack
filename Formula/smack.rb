@@ -4,13 +4,6 @@ class Smack < Formula
   url "https://github.com/smackers/smack/archive/v2.4.0.tar.gz"
   sha256 "32ebe2d99044e74e91db611934c781d740529213e6fdcc2b29a930ee14da7b93"
 
-  bottle do
-    root_url "https://dl.bintray.com/smackers/bottles-smack"
-    cellar :any
-    rebuild 1
-    sha256 "96cbbd634797c032413fceaa7cf5dc45051748669294263f8934baed4ba0e744" => :catalina
-  end
-
   depends_on "cmake" => :build
   depends_on "llvm@8"
   depends_on "python"
